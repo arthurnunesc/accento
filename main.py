@@ -19,13 +19,6 @@ def analyseText(textToBeAnalysed):
     textToBeAnalysedWithoutSpacesAndAllLowerCase = textToBeAnalysedWithoutSpaces.lower()
 
 
-    ### IMPLEMENTAÇÃO ANTIGA ###
-    # for each in alpha:
-    #     alphaIncidence.append(textToBeAnalysedWithoutSpacesAndAllLowerCase.count(each))
-    # for each in alphaIncidence:
-    #     alphaPercentages.append(round(each / lengthOfTextToBeAnalysedWithoutSpaces * 100, 4))
-    # alphaDictionary = dict(zip(alpha, alphaPercentages))
-
     alphaCounter = Counter()
     for line in textToBeAnalysedWithoutSpacesAndAllLowerCase:
         for each in alpha:
@@ -38,13 +31,6 @@ def analyseText(textToBeAnalysed):
     for each in alphaIncidence:
         alphaPercentages.append(round(each / lengthOfTextToBeAnalysedWithoutSpaces * 100, 4))
     alphaDictionary = dict(zip(alpha, alphaPercentages))
-
-    ### IMPLEMENTAÇÃO ANTIGA ###
-    # for each in digits:
-    #     digitsIncidence.append(textToBeAnalysedWithoutSpacesAndAllLowerCase.count(each))
-    # for each in digitsIncidence:
-    #     digitsPercentages.append(round(each / lengthOfTextToBeAnalysedWithoutSpaces * 100, 4))
-    # digitsDictionary = dict(zip(digits, digitsPercentages))
 
 
     digitsCounter = Counter()
@@ -59,7 +45,6 @@ def analyseText(textToBeAnalysed):
     for each in digitsIncidence:
         digitsPercentages.append(round(each / lengthOfTextToBeAnalysedWithoutSpaces * 100, 4))
     digitsDictionary = dict(zip(digits, digitsPercentages))
-    
     
 
     punctuationCounter = Counter()
@@ -81,12 +66,13 @@ def analyseText(textToBeAnalysed):
     sortedEverythingDictionary = sorted(everythingDictionary.items(), key=lambda x: x[1], reverse=True)
 
     return everythingDictionary, sortedEverythingDictionary
-    # print(sortedEverythingDictionary)
 
+# Nomes dos arquivos nos quais os textos se encontram, em plain text
 arquivos = ['books\engDracula.txt', 'books\engFrankenstein.txt', 'books\esEsElCamino.txt', 'books\esPeTupacAmaru.txt', 'books\ptBrDomCasmurro.txt', 'books\ptPtOsLusiadas.txt', 'books\catElsCaminsDelParadisPerdut.txt', 'books\catEnPereIAltresContes.txt']
 
 textos = []
 
+# Armazena cada um dos textos no vetor textos
 for each in arquivos:
     f = open(each, encoding="utf8")
     textos.append(f.read())
@@ -95,49 +81,22 @@ for each in arquivos:
 dicionarios = []
 dicionariosOrganizados = []
 
+# Aplica a função analyseText a todos os textos armazenados e armazena os resultados no vetor dicionarios
 for each in textos:
     dicionarios.append(analyseText(each)[0])
-    dicionariosOrganizados.append(analyseText(each)[1])
+    # dicionariosOrganizados.append(analyseText(each)[1])
 
-print(dicionarios)
-print(dicionariosOrganizados)
+dicionarioGeral = dicionarios[0].copy()
 
-# f = open('books\engDracula.txt', encoding="utf8")
-# dracula = f.read()
-# f.close()
-# draculaDictionary, draculaDictionarySorted = analyseText(dracula)
+# Soma todos os dicionários no vetor dicionarios e os adiciona num único dicionário chamado dicionarioGeral
+for index in range(len(dicionarios)):
+    if index != 0:
+        # Por usar counter, descarta todos os caracteres que tem porcentagem(contagem) igual a 0
+        dicionarioGeral = Counter(dicionarioGeral) + Counter(dicionarios[index])
 
-# f = open('books\engFrankenstein.txt', encoding="utf8")
-# frankenstein = f.read()
-# f.close()
-# frankensteinDictionary, frankensteinDictionarySorted = analyseText(frankenstein)
+# Divide a soma de todos os dicionários pelo número total de dicionários, efetivamente, calculando a média deles
+dicionarioGeral = {k: round(v / len(dicionarios), 4) for k, v in dicionarioGeral.items()}
 
-# f = open('books\esEsElCamino.txt', encoding="utf8")
-# elCamino = f.read()
-# f.close()
-# elCaminoDictionary, elCaminoDictionarySorted = analyseText(elCamino)
-
-# f = open('books\esPeTupacAmaru.txt', encoding="utf8")
-# tupacAmaru = f.read()
-# f.close()
-# tupacAmaruDictionary, tupacAmaruDictionarySorted = analyseText(tupacAmaru)
-
-# f = open('books\ptBrDomCasmurro.txt', encoding="utf8")
-# domCasmurro = f.read()
-# f.close()
-# domCasmurroDictionary, domCasmurroDictionarySorted = analyseText(domCasmurro)
-
-# f = open('books\ptPtOsLusiadas.txt', encoding="utf8")
-# osLusiadas = f.read()
-# f.close()
-# osLusiadasDictionary, osLusiadasDictionarySorted = analyseText(osLusiadas)
-
-# f = open('books\catElsCaminsDelParadisPerdut.txt', encoding="utf8")
-# elsCaminsDelParadisPerdut = f.read()
-# f.close()
-# elsCaminsDelParadisPerdutDictionary, elsCaminsDelParadisPerdutDictionarySorted = analyseText(elsCaminsDelParadisPerdut)
-
-# f = open('books\catEnPereIAltresContes.txt', encoding="utf8")
-# enPereIAltresContes = f.read()
-# f.close()
-# enPereIAltresContesDictionary, enPereIAltresContesDictionarySorted = analyseText(enPereIAltresContes)
+# Organiza o dicionarioGeral em ordem decrescente
+dicionarioGeralOrganizado = sorted(dicionarioGeral.items(), key=lambda x: x[1], reverse=True)
+print(dicionarioGeralOrganizado)
