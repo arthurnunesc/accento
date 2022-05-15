@@ -80,14 +80,31 @@ def analyze_text(text_to_be_analyzed):
 
 
 # Names of the files containing the texts to be analyzed
-files = ['books/ptBrDomCasmurro.txt']
+files = ['books/ptBrDomCasmurro.txt', 'books/enUsTheSubtleArtOfNotGivingAFuck.txt', 'books/esEsElCamino.txt', 'books/catElsCaminsDelParadisPerdut.txt']
 texts = []
 
-# Stores every text in the files in the list texts
-for each in files:
-    f = open(each, encoding="utf8")
-    texts.append(f.read())
-    f.close()
+# Stores every text in the files in the list texts, multiplicating them in descending order so the first text is more influential in the final result
+for index in range(len(files)):
+    if index == 0:
+        for x in range(4):
+            f = open(files[index], encoding="utf8")
+            texts.append(f.read())
+            f.close()
+    if index == 1:
+        for x in range(3):
+            f = open(files[index], encoding="utf8")
+            texts.append(f.read())
+            f.close()
+    if index == 2:
+        for x in range(2):
+            f = open(files[index], encoding="utf8")
+            texts.append(f.read())
+            f.close()
+    if index == 3:
+        f = open(files[index], encoding="utf8")
+        texts.append(f.read())
+        f.close() 
+
 
 dictionaries = []
 dictionaries_organizados = []
