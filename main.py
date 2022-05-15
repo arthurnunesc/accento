@@ -73,6 +73,8 @@ def analyze_text(text_to_be_analyzed):
     everything_dictionary.update(digits_dictionary)
     everything_dictionary.update(punctuation_marks_dictionary)
     
+    print(counter)
+    
     # Sorts everything_dictionary so it shows in order, from biggest to smallest
     sorted_everything_dictionary = sorted(everything_dictionary.items(), key=lambda x: x[1], reverse=True)
 
